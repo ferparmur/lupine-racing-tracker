@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import { theme } from "../src/theme";
+import { theme } from "../theme";
 import { useState } from "react";
 
 export default function Home() {
