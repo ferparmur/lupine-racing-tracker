@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
-export default function () {
+export default function Layout() {
   return (
     <Tabs>
       <Tabs.Screen
