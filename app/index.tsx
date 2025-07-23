@@ -9,6 +9,7 @@ import {
 import { theme } from "../theme";
 import { useEffect, useState } from "react";
 import { getFromStorage, saveToStorage } from "../utils/storage";
+import BackgroundGeoLocationIntegration from "../components/BackgroundGeoLocationIntegration/BackgroundGeoLocationIntegration";
 
 export default function Home() {
   const [apiEndpoint, setApiEndpoint] = useState<string>(
@@ -93,6 +94,8 @@ export default function Home() {
       >
         <Text style={styles.buttonText}>Send Token 1</Text>
       </TouchableOpacity>
+
+      <BackgroundGeoLocationIntegration />
     </View>
   );
 }
