@@ -6,7 +6,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -36,7 +36,7 @@
           "com.transistorsoft.customtask"
         ]
       },
-      "bundleIdentifier": "com.anonymous.lupineracingtracker"
+      "bundleIdentifier": "com.fparedes.lupineracingtracker"
     },
     "android": {
       "adaptiveIcon": {
@@ -44,7 +44,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.lupineracingtracker"
+      "package": "com.fparedes.lupineracingtracker"
     },
     "web": {
       "favicon": "./assets/favicon.png"

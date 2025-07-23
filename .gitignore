@@ -38,3 +38,8 @@ yarn-error.*
 
 # editor files
 .idea
+
+# builds
+android
+ios
+
