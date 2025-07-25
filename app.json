@@ -52,6 +52,18 @@
     "plugins": [
       "expo-router",
       [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#E80F0F",
+          "image": "./assets/splash-icon.png",
+          "dark": {
+            "image": "./assets/splash-icon.png",
+            "backgroundColor": "#410404"
+          },
+          "imageWidth": 150
+        }
+      ],
+      [
         "react-native-background-geolocation",
         {
           "license": "YOUR_LICENSE_KEY_HERE"
