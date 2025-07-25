@@ -17,6 +17,8 @@ export default function Home() {
   );
   const [userToken, setUserToken] = useState<string>("");
 
+  const [isEditing, setIsEditing] = useState(true);
+
   useEffect(() => {
     const fetchInitialData = async () => {
       const apiEndpoint = await getFromStorage("apiEndpoint");
@@ -28,6 +30,8 @@ export default function Home() {
       if (userToken) {
         setUserToken(userToken);
       }
+
+      setIsEditing(apiEndpoint && userToken);
     };
 
     fetchInitialData();
@@ -38,12 +42,16 @@ export default function Home() {
       <View style={styles.formField}>
         <Text style={styles.inputLabel}>Remote API:</Text>
         <TextInput
+          editable={isEditing}
           value={apiEndpoint}
           onChangeText={(value) => {
             setApiEndpoint(value);
             saveToStorage("apiToken", value);
           }}
-          style={styles.textInput}
+          style={[
+            styles.textInput,
+            isEditing ? undefined : styles.textInputDisabled,
+          ]}
           inputMode="url"
           keyboardType="url"
           autoCapitalize="none"
@@ -53,19 +61,46 @@ export default function Home() {
       <View style={styles.formField}>
         <Text style={styles.inputLabel}>User Token:</Text>
         <TextInput
+          editable={isEditing}
           placeholder="Eg.: abc1234"
           value={userToken}
           onChangeText={(value) => {
             setUserToken(value);
             saveToStorage("userToken", value);
           }}
-          style={styles.textInput}
+          style={[
+            styles.textInput,
+            isEditing ? undefined : styles.textInputDisabled,
+          ]}
           autoCapitalize="none"
         />
       </View>
 
+      <View style={[styles.formField]}>
+        {isEditing ? (
+          <TouchableOpacity
+            style={[
+              styles.button,
+              !userToken || !apiEndpoint ? styles.buttonDisabled : undefined,
+            ]}
+            onPress={() => setIsEditing(false)}
+            disabled={!userToken || !apiEndpoint}
+          >
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => setIsEditing(true)}
+          >
+            <Text style={styles.buttonText}>Edit</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
       <TouchableOpacity
         style={[
+          styles.formField,
           styles.button,
           (!userToken || !apiEndpoint) && styles.buttonDisabled,
         ]}
@@ -92,10 +127,19 @@ export default function Home() {
         disabled={!userToken || !apiEndpoint}
         activeOpacity={0.7}
       >
-        <Text style={styles.buttonText}>Send Token 1</Text>
+        <Text style={styles.buttonText}>Send Token</Text>
       </TouchableOpacity>
 
-      <BackgroundGeoLocationIntegration />
+      {!isEditing && apiEndpoint && userToken ? (
+        <BackgroundGeoLocationIntegration
+          userToken={userToken}
+          apiEndpoint={apiEndpoint}
+        />
+      ) : (
+        <Text>
+          Please configure your User Token to start recording your location.
+        </Text>
+      )}
     </View>
   );
 }
@@ -123,6 +167,10 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 10,
     fontSize: 16,
+  },
+
+  textInputDisabled: {
+    opacity: 0.5,
   },
 
   button: {

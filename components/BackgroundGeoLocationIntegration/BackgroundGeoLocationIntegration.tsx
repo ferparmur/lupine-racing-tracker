@@ -1,16 +1,25 @@
-import React from "react";
-import { Switch, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { ScrollView, Switch, Text, View } from "react-native";
 
 import BackgroundGeolocation, {
   Location,
   Subscription,
 } from "react-native-background-geolocation";
+import backgroundGeolocationBaseConfig from "../../backgroundGeolocationBaseConfig";
 
-const BackgroundGeoLocationIntegration = () => {
-  const [enabled, setEnabled] = React.useState(false);
-  const [location, setLocation] = React.useState("");
+type Props = {
+  userToken: string;
+  apiEndpoint: string;
+};
 
-  React.useEffect(() => {
+const BackgroundGeoLocationIntegration = ({
+  userToken,
+  apiEndpoint,
+}: Props) => {
+  const [enabled, setEnabled] = useState(false);
+  const [location, setLocation] = useState("");
+
+  useEffect(() => {
     /// 1.  Subscribe to events.
     const onLocation: Subscription = BackgroundGeolocation.onLocation(
       (location) => {
@@ -37,25 +46,11 @@ const BackgroundGeoLocationIntegration = () => {
 
     /// 2. ready the plugin.
     BackgroundGeolocation.ready({
-      // Geolocation Config
-      backgroundPermissionRationale: {
-        title: "Enable Background Location Settings",
-        message:
-          "This app requires location in the background to continuously monitor your position in the race map",
+      ...backgroundGeolocationBaseConfig,
+      extras: {
+        userToken,
       },
-      desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-      distanceFilter: 10,
-      // Activity Recognition
-      stopTimeout: 5,
-      // Application config
-      debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
-      logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-      stopOnTerminate: false, // <-- Allow the background-service to continue tracking when user closes the app.
-      startOnBoot: true, // <-- Auto start tracking when device is powered-up.
-      // HTTP / SQLite config
-      url: "https://lupine.fparedes.com/locations",
-      batchSync: true, // <-- [Default: false] Set true to sync locations to server in a single HTTP request.
-      autoSync: true, // <-- [Default: true] Set true to sync each location to server as it arrives.
+      url: apiEndpoint,
     }).then((state) => {
       setEnabled(state.enabled);
       console.log(
@@ -76,7 +71,7 @@ const BackgroundGeoLocationIntegration = () => {
   }, []);
 
   /// 3. start / stop BackgroundGeolocation
-  React.useEffect(() => {
+  useEffect(() => {
     if (enabled) {
       BackgroundGeolocation.start();
     } else {
@@ -86,10 +81,14 @@ const BackgroundGeoLocationIntegration = () => {
   }, [enabled]);
 
   return (
-    <View style={{ alignItems: "center" }}>
-      <Text>Click to enable BackgroundGeolocation</Text>
+    <View style={{ flex: 1, alignItems: "center" }}>
+      <Text>Enable BackgroundGeolocation </Text>
       <Switch value={enabled} onValueChange={setEnabled} />
-      <Text style={{ fontFamily: "monospace", fontSize: 12 }}>{location}</Text>
+      <ScrollView>
+        <Text style={{ fontFamily: "monospace", fontSize: 12 }}>
+          {location}
+        </Text>
+      </ScrollView>
     </View>
   );
 };

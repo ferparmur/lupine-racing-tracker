@@ -1,18 +1,13 @@
 {
   "expo": {
-    "name": "lupine-racing-tracker",
+    "name": "Lupine Tracker",
     "slug": "lupine-racing-tracker",
     "scheme": "lupine-racing-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/splash-icon.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -40,27 +35,27 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/splash-icon.png",
+        "backgroundColor": "#9E0000"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.fparedes.lupineracingtracker"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/splash-icon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#E80F0F",
+          "backgroundColor": "#9E0000",
           "image": "./assets/splash-icon.png",
           "dark": {
             "image": "./assets/splash-icon.png",
-            "backgroundColor": "#410404"
+            "backgroundColor": "#9E0000"
           },
-          "imageWidth": 150
+          "imageWidth": 200
         }
       ],
       [
