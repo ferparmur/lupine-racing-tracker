@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app requires location in the background",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app requires location in the background to continuously monitor your position in the race map",
         "NSLocationWhenInUseUsageDescription": "This app requires location while in use",
         "NSMotionUsageDescription": "This app uses motion-detection to determine the motion-activity of the device (walking, vehicle, bicycle, etc)",
         "UIBackgroundModes": [

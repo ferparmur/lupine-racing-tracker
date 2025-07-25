@@ -38,6 +38,11 @@ const BackgroundGeoLocationIntegration = () => {
     /// 2. ready the plugin.
     BackgroundGeolocation.ready({
       // Geolocation Config
+      backgroundPermissionRationale: {
+        title: "Enable Background Location Settings",
+        message:
+          "This app requires location in the background to continuously monitor your position in the race map",
+      },
       desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
       distanceFilter: 10,
       // Activity Recognition
