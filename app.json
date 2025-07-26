@@ -72,6 +72,13 @@
         }
       ],
       "react-native-background-fetch"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "3be32d85-40a2-47cd-921c-8b665b5914b6"
+      }
+    },
+    "owner": "ferparmur"
   }
 }
