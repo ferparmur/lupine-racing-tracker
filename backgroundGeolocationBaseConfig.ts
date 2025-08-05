@@ -6,7 +6,8 @@ export default {
   // Geolocation Config
   allowIdenticalLocations: false,
   desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-  distanceFilter: 250,
+  distanceFilter: 1000,
+  elasticityMultiplier: 4,
 
   // Activity Recognition
   stopTimeout: 5,
