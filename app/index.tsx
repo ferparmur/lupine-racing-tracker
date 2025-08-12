@@ -1,208 +1,72 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
-import { theme } from "../theme";
-import { useEffect, useState } from "react";
-import { getFromStorage, saveToStorage } from "../utils/storage";
-import BackgroundGeoLocationIntegration from "../components/BackgroundGeoLocationIntegration/BackgroundGeoLocationIntegration";
+import { View, Text } from "react-native";
 import { RaceConfig } from "../types/raceConfig";
+import { useMMKVNumber, useMMKVObject } from "react-native-mmkv";
+import { useEffect, useState } from "react";
+import { storage } from "../utils/storage";
+import { fetchRaceConfig } from "../utils/fetchRaceConfig";
+import Lupine from "../components/Lupine";
+import { getTimeAgo } from "../utils/getTimeAgo";
 
-export default function Home() {
-  const [apiEndpoint, setApiEndpoint] = useState<string>(
-    "https://lupine.fparedes.com/submit.php",
+export default function Index() {
+  const [raceConfig, setRaceConfig] = useMMKVObject<RaceConfig>("raceConfig");
+  const [raceConfigError, setRaceConfigError] = useState<string>("");
+  const [isLoadingRaceConfig, setIsLoadingRaceConfig] =
+    useState<boolean>(false);
+  const [raceConfigLoadTimestamp, setRaceConfigLoadTimestamp] = useMMKVNumber(
+    "raceConfigLoadTimestamp",
   );
-  const [raceConfig, setRaceConfig] = useState<RaceConfig | undefined>(
-    undefined,
-  );
-  const [userToken, setUserToken] = useState<string>("");
-  const [isEditing, setIsEditing] = useState<boolean>(true);
+
+  const loadRaceConfig = async () => {
+    setIsLoadingRaceConfig(true);
+    try {
+      const raceConfig = await fetchRaceConfig();
+      setRaceConfig(raceConfig);
+      setRaceConfigError("");
+      setRaceConfigLoadTimestamp(Date.now());
+    } catch (err) {
+      if (err instanceof Error) {
+        setRaceConfigError(err.message);
+      }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingRaceConfig(false);
+      }, 300);
+    }
+  };
 
   useEffect(() => {
-    const fetchInitialData = async () => {
-      const raceConfig = await getFromStorage("raceConfig");
-      if (raceConfig) {
-        setRaceConfig(raceConfig);
-      } else {
-        try {
-          const response = await fetch(
-            "https://lupine.fparedes.com/assets/race.json",
-          ); // remote JSON URL
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const json = await response.json();
-          setRaceConfig(json);
-        } catch (err) {
-          console.log(err);
-        }
-      }
-
-      const apiEndpoint = await getFromStorage("apiEndpoint");
-      if (apiEndpoint) {
-        setApiEndpoint(apiEndpoint);
-      }
-
-      const userToken = await getFromStorage("userToken");
-      if (userToken) {
-        setUserToken(userToken);
-      }
-
-      setIsEditing(apiEndpoint && userToken);
-    };
-
-    fetchInitialData();
+    if (!raceConfig) {
+      loadRaceConfig();
+    }
+    console.log("initial");
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View>
       <View>
-        <Text>{JSON.stringify(raceConfig)}</Text>
-      </View>
-
-      <View style={styles.formField}>
-        <Text style={styles.inputLabel}>Remote API:</Text>
-        <TextInput
-          editable={isEditing}
-          value={apiEndpoint}
-          onChangeText={(value) => {
-            setApiEndpoint(value);
-            saveToStorage("apiToken", value);
-          }}
-          style={[
-            styles.textInput,
-            isEditing ? undefined : styles.textInputDisabled,
-          ]}
-          inputMode="url"
-          keyboardType="url"
-          autoCapitalize="none"
-        />
-      </View>
-
-      <View style={styles.formField}>
-        <Text style={styles.inputLabel}>User Token:</Text>
-        <TextInput
-          editable={isEditing}
-          placeholder="Eg.: abc1234"
-          value={userToken}
-          onChangeText={(value) => {
-            setUserToken(value);
-            saveToStorage("userToken", value);
-          }}
-          style={[
-            styles.textInput,
-            isEditing ? undefined : styles.textInputDisabled,
-          ]}
-          autoCapitalize="none"
-        />
-      </View>
-
-      <View style={[styles.formField]}>
-        {isEditing ? (
-          <TouchableOpacity
-            style={[
-              styles.button,
-              !userToken || !apiEndpoint ? styles.buttonDisabled : undefined,
-            ]}
-            onPress={() => setIsEditing(false)}
-            disabled={!userToken || !apiEndpoint}
-          >
-            <Text style={styles.buttonText}>Save</Text>
-          </TouchableOpacity>
+        {isLoadingRaceConfig || !raceConfig ? (
+          <Text>Loading Race Configuration...</Text>
         ) : (
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => setIsEditing(true)}
-          >
-            <Text style={styles.buttonText}>Edit</Text>
-          </TouchableOpacity>
+          <Text>
+            Loaded Race: {raceConfig.name}{" "}
+            {raceConfigLoadTimestamp
+              ? `(${getTimeAgo(raceConfigLoadTimestamp)})`
+              : ""}
+          </Text>
         )}
-      </View>
 
-      <TouchableOpacity
-        style={[styles.formField, styles.button]}
-        onPress={async () => {
-          try {
-            const response = await fetch(
-              "https://lupine.fparedes.com/assets/race.json",
-            ); // remote JSON URL
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const json = await response.json();
-            console.log(json);
-          } catch (err) {
-            console.log(err);
-          } finally {
-          }
-        }}
-        activeOpacity={0.7}
-      >
-        <Text style={styles.buttonText}>Fetch Race Config</Text>
-      </TouchableOpacity>
+        {raceConfigError ? (
+          <Text>Error Loading Race Configuration: {raceConfigError}</Text>
+        ) : null}
 
-      {!isEditing && apiEndpoint && userToken ? (
-        <BackgroundGeoLocationIntegration
-          userToken={userToken}
-          apiEndpoint={apiEndpoint}
+        <Lupine.Button
+          onPress={() => {
+            storage.clearAll();
+            loadRaceConfig();
+          }}
+          text="Clear Storage And Reload Configuration"
         />
-      ) : (
-        <Text>
-          Please configure your User Token to start recording your location.
-        </Text>
-      )}
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 14,
-    paddingVertical: 16,
-    backgroundColor: "#fff",
-  },
-
-  formField: {
-    marginBlockEnd: 24,
-  },
-
-  inputLabel: {
-    fontSize: 16,
-    marginBottom: 4,
-  },
-
-  textInput: {
-    borderWidth: 1,
-    borderColor: theme.colors.black800,
-    borderRadius: 6,
-    padding: 10,
-    fontSize: 16,
-  },
-
-  textInputDisabled: {
-    opacity: 0.5,
-  },
-
-  button: {
-    backgroundColor: theme.colors.black800,
-    paddingVertical: 14,
-    borderRadius: 6,
-    alignItems: "center",
-    marginTop: 8,
-  },
-
-  buttonDisabled: {
-    backgroundColor: "#ccc",
-  },
-
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});
