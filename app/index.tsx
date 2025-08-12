@@ -10,17 +10,38 @@ import { theme } from "../theme";
 import { useEffect, useState } from "react";
 import { getFromStorage, saveToStorage } from "../utils/storage";
 import BackgroundGeoLocationIntegration from "../components/BackgroundGeoLocationIntegration/BackgroundGeoLocationIntegration";
+import { RaceConfig } from "../types/raceConfig";
 
 export default function Home() {
   const [apiEndpoint, setApiEndpoint] = useState<string>(
     "https://lupine.fparedes.com/submit.php",
   );
+  const [raceConfig, setRaceConfig] = useState<RaceConfig | undefined>(
+    undefined,
+  );
   const [userToken, setUserToken] = useState<string>("");
-
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchInitialData = async () => {
+      const raceConfig = await getFromStorage("raceConfig");
+      if (raceConfig) {
+        setRaceConfig(raceConfig);
+      } else {
+        try {
+          const response = await fetch(
+            "https://lupine.fparedes.com/assets/race.json",
+          ); // remote JSON URL
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const json = await response.json();
+          setRaceConfig(json);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
       const apiEndpoint = await getFromStorage("apiEndpoint");
       if (apiEndpoint) {
         setApiEndpoint(apiEndpoint);
@@ -39,6 +60,10 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
+      <View>
+        <Text>{JSON.stringify(raceConfig)}</Text>
+      </View>
+
       <View style={styles.formField}>
         <Text style={styles.inputLabel}>Remote API:</Text>
         <TextInput
@@ -99,35 +124,25 @@ export default function Home() {
       </View>
 
       <TouchableOpacity
-        style={[
-          styles.formField,
-          styles.button,
-          (!userToken || !apiEndpoint) && styles.buttonDisabled,
-        ]}
+        style={[styles.formField, styles.button]}
         onPress={async () => {
           try {
-            const response = await fetch(apiEndpoint, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ userToken, location: "lololo" }),
-            });
+            const response = await fetch(
+              "https://lupine.fparedes.com/assets/race.json",
+            ); // remote JSON URL
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
             }
-
-            const responseBody = await response.text();
-            Alert.alert("Success", responseBody);
-          } catch (error) {
-            const err = error as Error;
-            Alert.alert("Error", err.message || "Failed to send token");
+            const json = await response.json();
+            console.log(json);
+          } catch (err) {
+            console.log(err);
+          } finally {
           }
         }}
-        disabled={!userToken || !apiEndpoint}
         activeOpacity={0.7}
       >
-        <Text style={styles.buttonText}>Send Token</Text>
+        <Text style={styles.buttonText}>Fetch Race Config</Text>
       </TouchableOpacity>
 
       {!isEditing && apiEndpoint && userToken ? (
