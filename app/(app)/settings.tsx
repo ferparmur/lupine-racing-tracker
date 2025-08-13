@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Lupine from "../../components/Lupine";
 import { useMMKVObject, useMMKVString } from "react-native-mmkv";
 import { RaceConfig } from "../../types/raceConfig";
+import { storage } from "../../utils/storage";
 
 export default function Settings() {
   const [raceConfig] = useMMKVObject<RaceConfig>("raceConfig");
@@ -18,8 +19,17 @@ export default function Settings() {
           )}
         </Lupine.FormField>
 
-        <Lupine.FormField label="Stored User ID" noMargin={true}>
+        <Lupine.FormField label="Stored User ID">
           <Text>{userId}</Text>
+        </Lupine.FormField>
+
+        <Lupine.FormField noMargin={true}>
+          <Lupine.Button
+            onPress={() => {
+              storage.clearAll();
+            }}
+            text="Delete Configuration"
+          />
         </Lupine.FormField>
       </Lupine.FieldSet>
     </View>

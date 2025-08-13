@@ -9,6 +9,7 @@ export default function Layout() {
         options={{
           title: "Home",
           headerTitle: "Lupine Racing Tracker",
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="home" size={size} color={color} />
           ),

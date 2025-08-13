@@ -28,7 +28,9 @@
     "react-native-mmkv": "^3.3.0",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
-    "zod": "^4.0.17"
+    "react-native-webview": "13.13.5",
+    "zod": "^4.0.17",
+    "expo-asset": "~11.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

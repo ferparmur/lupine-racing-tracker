@@ -1,19 +1,20 @@
 import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { LeafletMap } from "../../components/Lupine/LeafletMap";
+import { useMMKVObject } from "react-native-mmkv";
+import { RaceConfig } from "../../types/raceConfig";
 
 export default function Home() {
+  const [raceConfig] = useMMKVObject<RaceConfig>("raceConfig");
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>The Home Screen</Text>
+    <View style={{ flex: 1 }}>
+      <LeafletMap raceConfig={raceConfig} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: "#fff",
-  },
   text: {
     fontSize: 16,
   },

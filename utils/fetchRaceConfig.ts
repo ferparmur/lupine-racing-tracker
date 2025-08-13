@@ -1,7 +1,9 @@
 import { RaceConfig, raceConfigSchema } from "../types/raceConfig";
 
 export const fetchRaceConfig = async (): Promise<RaceConfig> => {
-  const response = await fetch("https://lupine.fparedes.com/assets/race.json"); // remote JSON URL
+  const response = await fetch(
+    `https://lupine.fparedes.com/assets/race.json?v=${Date.now()}`,
+  ); // remote JSON URL
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
