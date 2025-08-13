@@ -7,12 +7,12 @@ import {
 } from "react-native";
 import { theme } from "../../theme";
 
-interface ExtendedTouchableOpacityProps extends TouchableOpacityProps {
+interface ButtonProps extends TouchableOpacityProps {
   variant?: "primary" | "secondary" | "outline";
   text?: string;
 }
 
-export const Button: React.FC<ExtendedTouchableOpacityProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   variant = "primary",
   text,
   style,
@@ -35,8 +35,8 @@ export const Button: React.FC<ExtendedTouchableOpacityProps> = ({
 
 const buttonStyles = StyleSheet.create({
   default: {
-    padding: 10,
-    borderRadius: theme.border.radius["2"],
+    padding: theme.spacing[3],
+    borderRadius: theme.border.radius[2],
   },
   primary: {
     backgroundColor: theme.colors.midnight,

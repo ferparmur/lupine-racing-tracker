@@ -1,8 +1,8 @@
 import { View, Text } from "react-native";
 import { RaceConfig } from "../types/raceConfig";
-import { useMMKVNumber, useMMKVObject } from "react-native-mmkv";
+import { useMMKVNumber, useMMKVObject, useMMKVString } from "react-native-mmkv";
 import { useEffect, useState } from "react";
-import { storage } from "../utils/storage";
+import { saveToStorage, storage } from "../utils/storage";
 import { fetchRaceConfig } from "../utils/fetchRaceConfig";
 import Lupine from "../components/Lupine";
 import { getTimeAgo } from "../utils/getTimeAgo";
@@ -15,8 +15,13 @@ export default function Index() {
   const [raceConfigLoadTimestamp, setRaceConfigLoadTimestamp] = useMMKVNumber(
     "raceConfigLoadTimestamp",
   );
+  const [userId, setUserId] = useMMKVString("userId");
+  const [internalUserId, setInternalUserId] = useState<string | undefined>(
+    userId,
+  );
 
   const loadRaceConfig = async () => {
+    setRaceConfig(undefined);
     setIsLoadingRaceConfig(true);
     try {
       const raceConfig = await fetchRaceConfig();
@@ -58,14 +63,35 @@ export default function Index() {
         {raceConfigError ? (
           <Text>Error Loading Race Configuration: {raceConfigError}</Text>
         ) : null}
+        <Text>Stored User ID: {userId}</Text>
 
-        <Lupine.Button
-          onPress={() => {
-            storage.clearAll();
-            loadRaceConfig();
-          }}
-          text="Clear Storage And Reload Configuration"
-        />
+        <Lupine.FormField label="User ID">
+          <Lupine.TextInput
+            value={internalUserId}
+            onChangeText={(value) => {
+              setInternalUserId(value);
+            }}
+          ></Lupine.TextInput>
+        </Lupine.FormField>
+
+        <Lupine.FormField>
+          <Lupine.Button
+            onPress={() => {
+              storage.clearAll();
+              loadRaceConfig();
+            }}
+            text="Reload Configuration"
+          />
+        </Lupine.FormField>
+
+        <Lupine.FormField>
+          <Lupine.Button
+            onPress={() => {
+              setUserId(internalUserId);
+            }}
+            text="Save User ID"
+          />
+        </Lupine.FormField>
       </View>
     </View>
   );
