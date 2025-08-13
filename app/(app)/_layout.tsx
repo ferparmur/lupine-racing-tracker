@@ -15,12 +15,12 @@ export default function Layout() {
         }}
       />
       <Tabs.Screen
-        name="info"
+        name="settings"
         options={{
-          title: "Info",
-          headerTitle: "About Lupine Racing Tracker",
+          title: "Settings",
+          headerTitle: "Lupine Racing Settings",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="info-circle" size={size} color={color} />
+            <FontAwesome5 name="cog" size={size} color={color} />
           ),
         }}
       />
