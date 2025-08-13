@@ -38,12 +38,18 @@ const buttonStyles = StyleSheet.create({
     padding: theme.spacing[3],
     borderRadius: theme.border.radius[2],
   },
+
+  // eslint-disable-next-line react-native/no-unused-styles
   primary: {
     backgroundColor: theme.colors.midnight,
   },
+
+  // eslint-disable-next-line react-native/no-unused-styles
   secondary: {
     backgroundColor: theme.colors.cement,
   },
+
+  // eslint-disable-next-line react-native/no-unused-styles
   outline: {
     backgroundColor: "transparent",
     borderColor: theme.colors.midnight,
@@ -55,12 +61,18 @@ const buttonTextStyles = StyleSheet.create({
   default: {
     textAlign: "center",
   },
+
+  // eslint-disable-next-line react-native/no-unused-styles
   primary: {
     color: theme.colors.white,
   },
+
+  // eslint-disable-next-line react-native/no-unused-styles
   secondary: {
     color: theme.colors.midnight,
   },
+
+  // eslint-disable-next-line react-native/no-unused-styles
   outline: {
     color: theme.colors.midnight,
   },

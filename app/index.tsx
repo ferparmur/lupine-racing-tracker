@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import { RaceConfig } from "../types/raceConfig";
 import { useMMKVNumber, useMMKVObject, useMMKVString } from "react-native-mmkv";
 import { useEffect, useState } from "react";
-import { saveToStorage, storage } from "../utils/storage";
+import { storage } from "../utils/storage";
 import { fetchRaceConfig } from "../utils/fetchRaceConfig";
 import Lupine from "../components/Lupine";
 import { getTimeAgo } from "../utils/getTimeAgo";
@@ -43,7 +43,8 @@ export default function Index() {
     if (!raceConfig) {
       loadRaceConfig();
     }
-    console.log("initial");
+    // Intentionally left with no dependencies to trigger only once initially
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

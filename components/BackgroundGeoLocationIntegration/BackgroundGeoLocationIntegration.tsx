@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { ScrollView, Switch, Text, View } from "react-native";
 
 import BackgroundGeolocation, {
-  Location,
   Subscription,
 } from "react-native-background-geolocation";
 import backgroundGeolocationBaseConfig from "../../backgroundGeolocationBaseConfig";
@@ -68,7 +67,7 @@ const BackgroundGeoLocationIntegration = ({
       onActivityChange.remove();
       onProviderChange.remove();
     };
-  }, []);
+  }, [apiEndpoint, userToken]);
 
   /// 3. start / stop BackgroundGeolocation
   useEffect(() => {
