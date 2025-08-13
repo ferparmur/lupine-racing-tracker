@@ -8,7 +8,7 @@ import {
 import { theme } from "../../theme";
 
 interface ButtonProps extends TouchableOpacityProps {
-  variant?: "primary" | "secondary" | "outline";
+  variant?: "primary" | "secondary" | "outline" | "danger";
   text?: string;
 }
 
@@ -55,6 +55,13 @@ const buttonStyles = StyleSheet.create({
     borderColor: theme.colors.midnight,
     borderWidth: 1,
   },
+
+  // eslint-disable-next-line react-native/no-unused-styles
+  danger: {
+    backgroundColor: "transparent",
+    borderColor: theme.colors.red,
+    borderWidth: 1,
+  },
 });
 
 const buttonTextStyles = StyleSheet.create({
@@ -75,5 +82,10 @@ const buttonTextStyles = StyleSheet.create({
   // eslint-disable-next-line react-native/no-unused-styles
   outline: {
     color: theme.colors.midnight,
+  },
+
+  // eslint-disable-next-line react-native/no-unused-styles
+  danger: {
+    color: theme.colors.red,
   },
 });

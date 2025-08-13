@@ -81,7 +81,8 @@ export default function Index() {
               storage.clearAll();
               loadRaceConfig();
             }}
-            text="Reload Configuration"
+            variant="danger"
+            text="Reset Configuration"
           />
         </Lupine.FormField>
 

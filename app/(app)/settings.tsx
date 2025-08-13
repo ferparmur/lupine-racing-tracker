@@ -10,8 +10,8 @@ export default function Settings() {
 
   return (
     <View style={styles.container}>
-      <Lupine.FieldSet label="Loaded Info">
-        <Lupine.FormField label="Loaded Race">
+      <Lupine.FieldSet label="Global Configuration">
+        <Lupine.FormField label="Race">
           {raceConfig ? (
             <Text>{raceConfig.name} </Text>
           ) : (
@@ -19,7 +19,7 @@ export default function Settings() {
           )}
         </Lupine.FormField>
 
-        <Lupine.FormField label="Stored User ID">
+        <Lupine.FormField label="User ID">
           <Text>{userId}</Text>
         </Lupine.FormField>
 
@@ -28,6 +28,7 @@ export default function Settings() {
             onPress={() => {
               storage.clearAll();
             }}
+            variant="danger"
             text="Delete Configuration"
           />
         </Lupine.FormField>
