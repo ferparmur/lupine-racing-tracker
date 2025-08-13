@@ -7,11 +7,21 @@ export default function Layout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Map",
           headerTitle: "Lupine Racing Tracker",
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="home" size={size} color={color} />
+            <FontAwesome5 name="map" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="tracking"
+        options={{
+          title: "Tracking",
+          headerTitle: "Location Tracking",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="location-arrow" size={size} color={color} />
           ),
         }}
       />

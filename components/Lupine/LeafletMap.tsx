@@ -36,10 +36,6 @@ export const LeafletMap = ({ raceConfig }: LeafletMapProps) => {
           const map = L.map('map', {
             zoomControl: false
           }).setView([51.505, -0.09], 13);
-          
-          L.control.zoom({
-              position: 'bottomright'
-          }).addTo(map);
 
           L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             attribution: '© OpenStreetMap contributors'

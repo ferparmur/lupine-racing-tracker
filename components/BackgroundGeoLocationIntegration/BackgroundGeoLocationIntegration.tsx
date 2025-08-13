@@ -7,14 +7,11 @@ import BackgroundGeolocation, {
 import backgroundGeolocationBaseConfig from "../../backgroundGeolocationBaseConfig";
 
 type Props = {
-  userToken: string;
+  userId: string;
   apiEndpoint: string;
 };
 
-const BackgroundGeoLocationIntegration = ({
-  userToken,
-  apiEndpoint,
-}: Props) => {
+const BackgroundGeoLocationIntegration = ({ userId, apiEndpoint }: Props) => {
   const [enabled, setEnabled] = useState(false);
   const [location, setLocation] = useState("");
 
@@ -47,7 +44,7 @@ const BackgroundGeoLocationIntegration = ({
     BackgroundGeolocation.ready({
       ...backgroundGeolocationBaseConfig,
       extras: {
-        userToken,
+        userId: userId,
       },
       url: apiEndpoint,
     }).then((state) => {
@@ -67,7 +64,7 @@ const BackgroundGeoLocationIntegration = ({
       onActivityChange.remove();
       onProviderChange.remove();
     };
-  }, [apiEndpoint, userToken]);
+  }, [apiEndpoint, userId]);
 
   /// 3. start / stop BackgroundGeolocation
   useEffect(() => {
