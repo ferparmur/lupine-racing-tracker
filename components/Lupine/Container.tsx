@@ -1,9 +1,24 @@
 import { StyleSheet, View, ViewProps } from "react-native";
 import { theme } from "../../theme";
 
-interface ContainerProps extends ViewProps {}
-export const Container = ({ style, ...props }: ContainerProps) => {
-  return <View style={[styles.default, style]} {...props} />;
+interface ContainerProps extends ViewProps {
+  paddingVertical?: boolean;
+}
+export const Container = ({
+  style,
+  paddingVertical,
+  ...props
+}: ContainerProps) => {
+  return (
+    <View
+      style={[
+        styles.default,
+        paddingVertical ? styles.paddingVertical : undefined,
+        style,
+      ]}
+      {...props}
+    />
+  );
 };
 
 const styles = StyleSheet.create({
@@ -11,5 +26,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: theme.spacing[4],
     backgroundColor: theme.colors.white,
+  },
+
+  paddingVertical: {
+    paddingVertical: theme.spacing[4],
   },
 });

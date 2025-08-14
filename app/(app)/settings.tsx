@@ -9,7 +9,7 @@ export default function Settings() {
   const [userId] = useMMKVString("userId");
 
   return (
-    <Lupine.Container>
+    <Lupine.Container paddingVertical={true}>
       <Lupine.FieldSet label="Tracking Mode">
         <Lupine.FormField label="Battery Saving" noMargin={true}>
           <View

@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Text } from "./Text";
 import { theme } from "../../theme";
-import Lupine from "./index";
 
 type Props = {
   label: string;
@@ -12,7 +12,7 @@ export const FieldSet: React.FC<Props> = ({ label, children }) => {
   return (
     <View style={[styles.container]}>
       <View style={[styles.labelWrapper]}>
-        <Lupine.Text style={[styles.label]}>{label}</Lupine.Text>
+        <Text style={[styles.label]}>{label}</Text>
       </View>
       <View>{children}</View>
     </View>
@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.anthracite,
     padding: theme.spacing[4],
     position: "relative",
-    marginBlockStart: theme.spacing[5],
+    marginBlockStart: theme.spacing[3],
+    marginBlockEnd: theme.spacing[6],
   },
   labelWrapper: {
     position: "absolute",

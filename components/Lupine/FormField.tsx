@@ -1,6 +1,6 @@
 import React from "react";
-import { View, ViewProps, StyleSheet } from "react-native";
-import Lupine from "./index";
+import { StyleSheet, View, ViewProps } from "react-native";
+import { Text } from "./Text";
 import { theme } from "../../theme";
 
 interface FormFieldProps extends ViewProps {
@@ -23,9 +23,9 @@ export const FormField: React.FC<FormFieldProps> = ({
       {...props}
     >
       {label ? (
-        <Lupine.Text variant="bold" style={styles.fieldLabel}>
+        <Text variant="bold" style={styles.fieldLabel}>
           {label}
-        </Lupine.Text>
+        </Text>
       ) : null}
       {children}
     </View>

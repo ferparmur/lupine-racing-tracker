@@ -3,7 +3,7 @@ import Lupine from "../../components/Lupine";
 
 export default function Settings() {
   return (
-    <Lupine.Container>
+    <Lupine.Container paddingVertical={true}>
       <Text>Checkpoint</Text>
     </Lupine.Container>
   );

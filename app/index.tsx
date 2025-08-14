@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { RaceConfig } from "../types/raceConfig";
 import { useMMKVNumber, useMMKVObject, useMMKVString } from "react-native-mmkv";
 import { useEffect, useState } from "react";
@@ -48,23 +48,25 @@ export default function Index() {
   }, []);
 
   return (
-    <View>
+    <Lupine.Container paddingVertical={true}>
       <View>
         {isLoadingRaceConfig || !raceConfig ? (
-          <Text>Loading Race Configuration...</Text>
+          <Lupine.Text>Loading Race Configuration...</Lupine.Text>
         ) : (
-          <Text>
+          <Lupine.Text>
             Loaded Race: {raceConfig.name}{" "}
             {raceConfigLoadTimestamp
               ? `(${getTimeAgo(raceConfigLoadTimestamp)})`
               : ""}
-          </Text>
+          </Lupine.Text>
         )}
 
         {raceConfigError ? (
-          <Text>Error Loading Race Configuration: {raceConfigError}</Text>
+          <Lupine.Text>
+            Error Loading Race Configuration: {raceConfigError}
+          </Lupine.Text>
         ) : null}
-        <Text>Stored User ID: {userId}</Text>
+        <Lupine.Text>Stored User ID: {userId}</Lupine.Text>
 
         <Lupine.FormField label="User ID">
           <Lupine.TextInput
@@ -95,6 +97,6 @@ export default function Index() {
           />
         </Lupine.FormField>
       </View>
-    </View>
+    </Lupine.Container>
   );
 }
