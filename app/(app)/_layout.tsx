@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 export default function Layout() {
   return (
@@ -7,21 +7,30 @@ export default function Layout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Map",
-          headerTitle: "Lupine Racing Tracker",
+          title: "Tracking",
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="map" size={size} color={color} />
+            <FontAwesome6 name="location-arrow" size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="tracking"
+        name="countries"
         options={{
-          title: "Tracking",
-          headerTitle: "Location Tracking",
+          title: "Countries",
+          headerTitle: "Country Count Reporting",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="location-arrow" size={size} color={color} />
+            <FontAwesome6 name="earth-europe" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="checkpoint"
+        options={{
+          title: "Checkpoint",
+          headerTitle: "Checkpoint Check-in",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome6 name="square-check" size={size} color={color} />
           ),
         }}
       />
@@ -31,7 +40,7 @@ export default function Layout() {
           title: "Settings",
           headerTitle: "Lupine Racing Settings",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="cog" size={size} color={color} />
+            <FontAwesome6 name="gear" size={size} color={color} />
           ),
         }}
       />
