@@ -31,21 +31,14 @@ export const Text = ({
 
 const styles = StyleSheet.create({
   default: {
-    fontFamily: Platform.select({
-      android: "Outfit_400Regular",
-      ios: "Outfit-Regular",
-    }),
+    fontFamily: "Outfit_400Regular",
     fontSize: 16,
     lineHeight: 24,
     color: theme.colors.midnight,
   },
 
   bold: {
-    fontFamily: Platform.select({
-      android: "Outfit_700Bold",
-      ios: "Outfit-Bold",
-    }),
-    fontWeight: 700,
+    fontFamily: "Outfit_700Bold",
     fontSize: 16,
     lineHeight: 24,
     color: theme.colors.midnight,
