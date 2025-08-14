@@ -15,6 +15,11 @@ import { useEffect } from "react";
 import backgroundGeolocationBaseConfig from "../../backgroundGeolocationBaseConfig";
 import { theme } from "../../theme";
 import Lupine from "../../components/Lupine";
+import { getTimeAgo } from "../../utils/getTimeAgo";
+import {
+  ServerLocation,
+  serverLocationSchema,
+} from "../../types/serverLocation";
 
 export default function Tracking() {
   const apiEndpoint = "https://lupine.fparedes.com/submit.php";
@@ -22,15 +27,9 @@ export default function Tracking() {
   const [userId] = useMMKVString("userId");
   const [locationEnabled, setLocationEnabled] =
     useMMKVBoolean("locationEnabled");
-  const [currentLocation, setCurrentLocation] =
-    useMMKVObject<Location>("currentLocation");
   const [locations, setLocations] = useMMKVObject<Location[]>("locations");
   const [syncedLocations, setSyncedLocations] =
-    useMMKVObject<Location[]>("syncedLocations");
-  const [lastLocationUpdateTimestamp, setLastLocationUpdateTimestamp] =
-    useMMKVNumber("lastLocationUpdateTimestamp");
-  const [lastLocationSyncTimestamp, setLastLocationSyncTimestamp] =
-    useMMKVNumber("lastLocationUpdateTimestamp");
+    useMMKVObject<ServerLocation[]>("syncedLocations");
 
   useEffect(() => {
     /// 1.  Subscribe to events.
@@ -57,6 +56,25 @@ export default function Tracking() {
         console.log("[onProviderChange]", event);
       });
 
+    const onHttp: Subscription = BackgroundGeolocation.onHttp((response) => {
+      const responseObject = JSON.parse(response.responseText);
+
+      if (
+        response.success &&
+        responseObject &&
+        serverLocationSchema.array().safeParse(responseObject).success
+      ) {
+        setSyncedLocations(responseObject);
+        console.log(
+          `[onHttp]: successful request. ${responseObject.length} locations retrieved from server`,
+        );
+      } else {
+        console.log(
+          `[onHttp]: unsuccessful request. Status: ${response.status}. Text: ${response.responseText}`,
+        );
+      }
+    });
+
     /// 2. ready the plugin.
     BackgroundGeolocation.ready({
       ...backgroundGeolocationBaseConfig,
@@ -80,6 +98,7 @@ export default function Tracking() {
       onMotionChange.remove();
       onActivityChange.remove();
       onProviderChange.remove();
+      onHttp.remove();
     };
   }, [apiEndpoint, userId]);
 
@@ -90,14 +109,17 @@ export default function Tracking() {
       console.log("BackgroundGeolocation Started");
     } else {
       BackgroundGeolocation.stop();
-      setCurrentLocation(undefined);
       console.log("BackgroundGeolocation Stopped");
     }
   }, [locationEnabled]);
 
   return (
     <View style={{ flex: 1 }}>
-      <LeafletMap raceConfig={raceConfig} locations={locations} />
+      <LeafletMap
+        raceConfig={raceConfig}
+        locations={locations}
+        syncedLocations={syncedLocations}
+      />
       <Lupine.Container style={[styles.controlBar]}>
         <View style={[styles.recordStatusControl]}>
           <Lupine.RecordButton
@@ -116,8 +138,20 @@ export default function Tracking() {
         </View>
 
         <View>
-          <Lupine.Text>Last record: just now</Lupine.Text>
-          <Lupine.Text>Last sync: just now</Lupine.Text>
+          <Lupine.Text>
+            Last record:{" "}
+            {locations
+              ? getTimeAgo(locations[locations.length - 1].timestamp)
+              : "N/A"}
+          </Lupine.Text>
+          <Lupine.Text>
+            Last sync:{" "}
+            {syncedLocations
+              ? getTimeAgo(
+                  syncedLocations[syncedLocations.length - 1].timestamp,
+                )
+              : "N/A"}
+          </Lupine.Text>
         </View>
       </Lupine.Container>
     </View>

@@ -2,13 +2,19 @@ import { StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { RaceConfig } from "../../types/raceConfig";
 import { Location } from "react-native-background-geolocation";
+import { ServerLocation } from "../../types/serverLocation";
 
 interface LeafletMapProps {
   raceConfig?: RaceConfig;
   locations?: Location[];
+  syncedLocations?: ServerLocation[];
 }
 
-export const LeafletMap = ({ raceConfig, locations }: LeafletMapProps) => {
+export const LeafletMap = ({
+  raceConfig,
+  locations,
+  syncedLocations,
+}: LeafletMapProps) => {
   const leafletHTML = `
     <!DOCTYPE html>
     <html>
@@ -35,6 +41,7 @@ export const LeafletMap = ({ raceConfig, locations }: LeafletMapProps) => {
         <script>
           const raceConfig = ${JSON.stringify(raceConfig)};
           const locations = ${JSON.stringify(locations)};
+          const syncedLocations = ${JSON.stringify(syncedLocations)};
           const map = L.map('map', {
             zoomControl: false,
             maxZoom: 16,
@@ -116,6 +123,16 @@ export const LeafletMap = ({ raceConfig, locations }: LeafletMapProps) => {
                 .bindPopup(\`Time: \${location.timestamp}<br>Accuracy: \${location.coords.accuracy} m\`);
             })
           }
+          
+          if(Array.isArray(syncedLocations) && syncedLocations.length > 0) {
+            //Draw Polyline
+            const latlngs = syncedLocations.map((serverLocation) => [serverLocation.location.latitude, serverLocation.location.longitude]);
+            L.polyline(latlngs, {
+                color: '#f00',
+                weight: 5
+            }).addTo(map);
+          }
+         
         </script>
       </body>
     </html>

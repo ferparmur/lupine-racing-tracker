@@ -24,9 +24,9 @@ export function getTimeAgo(timestamp: number | Date | string) {
   const years = Math.floor(days / 365);
 
   if (seconds < 60) return `just now`;
-  if (minutes < 60) return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
-  if (hours < 24) return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
-  if (days < 7) return `${days} day${days !== 1 ? "s" : ""} ago`;
+  if (minutes < 60) return `${minutes} m ago`;
+  if (hours < 24) return `${hours} h ago`;
+  if (days < 7) return `${days} d ago`;
   if (weeks < 5) return `${weeks} week${weeks !== 1 ? "s" : ""} ago`;
   if (months < 12) return `${months} month${months !== 1 ? "s" : ""} ago`;
   return `${years} year${years !== 1 ? "s" : ""} ago`;
