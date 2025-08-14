@@ -106,29 +106,43 @@ export const LeafletMap = ({
             //Draw Polyline
             const latlngs = locations.map((location) => [location.coords.latitude, location.coords.longitude]);
             L.polyline(latlngs, {
-                color: '#333',
+                color: '#C60000',
                 weight: 5
             }).addTo(map);
             
-            //Draw location markers
+            const lastLocation = locations.pop();
+            
+            //Draw location markers for previous locations
             locations.forEach(location => {
               L.circleMarker([location.coords.latitude, location.coords.longitude], {
                   radius: 1.5,
-                  color: '#666',
-                  fillColor: '#666',
+                  color: '#C60000',
+                  fillColor: '#C60000',
                   fillOpacity: 1,
                   weight: 1,
               })
                 .addTo(map)
                 .bindPopup(\`Time: \${location.timestamp}<br>Accuracy: \${location.coords.accuracy} m\`);
             })
+            
+            //Add current location marker
+            L.circleMarker([lastLocation.coords.latitude, lastLocation.coords.longitude], {
+                  radius: 5,
+                  color: '#C60000',
+                  fillColor: '#fff',
+                  fillOpacity: 1,
+                  weight: 3,
+              })
+                .addTo(map)
+                .bindPopup(\`Time: \${lastLocation.timestamp}<br>Accuracy: \${lastLocation.coords.accuracy} m\`);
+            map.setView([lastLocation.coords.latitude, lastLocation.coords.longitude], 7);
           }
           
           if(Array.isArray(syncedLocations) && syncedLocations.length > 0) {
             //Draw Polyline
             const latlngs = syncedLocations.map((serverLocation) => [serverLocation.location.latitude, serverLocation.location.longitude]);
             L.polyline(latlngs, {
-                color: '#f00',
+                color: '#057C5E',
                 weight: 5
             }).addTo(map);
           }
