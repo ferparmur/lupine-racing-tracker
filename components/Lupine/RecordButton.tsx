@@ -46,6 +46,6 @@ const styles = StyleSheet.create({
   },
 
   active: {
-    backgroundColor: theme.colors.rainforest,
+    backgroundColor: theme.colors.meadow,
   },
 });

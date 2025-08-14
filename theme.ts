@@ -26,6 +26,7 @@ export const theme = {
     grapefruit: "#DA421E",
     lemon: "#EFD61F",
     rainforest: "#057C5E",
+    meadow: "#10b18a",
   },
   spacing: {
     1: 4,

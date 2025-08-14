@@ -85,7 +85,7 @@ export default function Tracking() {
 
   /// 3. start / stop BackgroundGeolocation
   useEffect(() => {
-    if (locationEnabled) {
+    if (locationEnabled && userId) {
       BackgroundGeolocation.start();
       console.log("BackgroundGeolocation Started");
     } else {

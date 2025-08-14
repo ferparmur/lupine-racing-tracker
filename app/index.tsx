@@ -50,23 +50,19 @@ export default function Index() {
   return (
     <Lupine.Container paddingVertical={true}>
       <View>
-        {isLoadingRaceConfig || !raceConfig ? (
-          <Lupine.Text>Loading Race Configuration...</Lupine.Text>
-        ) : (
+        <Lupine.FormField label="Race Configuration">
           <Lupine.Text>
-            Loaded Race: {raceConfig.name}{" "}
-            {raceConfigLoadTimestamp
-              ? `(${getTimeAgo(raceConfigLoadTimestamp)})`
-              : ""}
+            {isLoadingRaceConfig || !raceConfig
+              ? "Loading..."
+              : raceConfigError
+                ? `Error Loading Race Configuration: ${raceConfigError}`
+                : `${raceConfig.name} ${
+                    raceConfigLoadTimestamp
+                      ? `(${getTimeAgo(raceConfigLoadTimestamp)})`
+                      : ""
+                  }`}
           </Lupine.Text>
-        )}
-
-        {raceConfigError ? (
-          <Lupine.Text>
-            Error Loading Race Configuration: {raceConfigError}
-          </Lupine.Text>
-        ) : null}
-        <Lupine.Text>Stored User ID: {userId}</Lupine.Text>
+        </Lupine.FormField>
 
         <Lupine.FormField label="User ID">
           <Lupine.TextInput
