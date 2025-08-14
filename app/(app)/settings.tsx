@@ -1,4 +1,4 @@
-import { StyleSheet, Switch, Text, View } from "react-native";
+import { Switch, View } from "react-native";
 import Lupine from "../../components/Lupine";
 import { useMMKVObject, useMMKVString } from "react-native-mmkv";
 import { RaceConfig } from "../../types/raceConfig";
@@ -9,9 +9,9 @@ export default function Settings() {
   const [userId] = useMMKVString("userId");
 
   return (
-    <View style={styles.container}>
+    <Lupine.Container>
       <Lupine.FieldSet label="Tracking Mode">
-        <Lupine.FormField label="Battery Saving">
+        <Lupine.FormField label="Battery Saving" noMargin={true}>
           <View
             style={{
               flexDirection: "row",
@@ -19,7 +19,9 @@ export default function Settings() {
             }}
           >
             <Switch value={true} />
-            <Text>Reduce tracking detail to extend battery life</Text>
+            <Lupine.Text>
+              Reduce tracking detail to extend battery life
+            </Lupine.Text>
           </View>
         </Lupine.FormField>
       </Lupine.FieldSet>
@@ -27,14 +29,14 @@ export default function Settings() {
       <Lupine.FieldSet label="Global Configuration">
         <Lupine.FormField label="Race">
           {raceConfig ? (
-            <Text>{raceConfig.name} </Text>
+            <Lupine.Text>{raceConfig.name} </Lupine.Text>
           ) : (
-            <Text>No Race Loaded</Text>
+            <Lupine.Text>No Race Loaded</Lupine.Text>
           )}
         </Lupine.FormField>
 
         <Lupine.FormField label="User ID">
-          <Text>{userId}</Text>
+          <Lupine.Text>{userId}</Lupine.Text>
         </Lupine.FormField>
 
         <Lupine.FormField noMargin={true}>
@@ -47,14 +49,6 @@ export default function Settings() {
           />
         </Lupine.FormField>
       </Lupine.FieldSet>
-    </View>
+    </Lupine.Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: "#fff",
-  },
-});

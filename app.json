@@ -72,7 +72,16 @@
         }
       ],
       "react-native-background-fetch",
-      "expo-asset"
+      "expo-asset",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/outfit/400Regular/Outfit_400Regular.ttf",
+            "node_modules/@expo-google-fonts/outfit/700Bold/Outfit_700Bold.ttf"
+          ]
+        }
+      ]
     ],
     "extra": {
       "router": {},

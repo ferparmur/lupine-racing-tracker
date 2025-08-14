@@ -1,17 +1,10 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text } from "react-native";
+import Lupine from "../../components/Lupine";
 
 export default function Settings() {
   return (
-    <View style={styles.container}>
+    <Lupine.Container>
       <Text>Countries</Text>
-    </View>
+    </Lupine.Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: "#fff",
-  },
-});

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { LeafletMap } from "../../components/Lupine/LeafletMap";
 import {
   useMMKVBoolean,
@@ -11,7 +11,7 @@ import BackgroundGeolocation, {
   Location,
   Subscription,
 } from "react-native-background-geolocation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import backgroundGeolocationBaseConfig from "../../backgroundGeolocationBaseConfig";
 import { theme } from "../../theme";
 import Lupine from "../../components/Lupine";
@@ -98,23 +98,28 @@ export default function Tracking() {
   return (
     <View style={{ flex: 1 }}>
       <LeafletMap raceConfig={raceConfig} locations={locations} />
-      <View style={[styles.controlBar]}>
+      <Lupine.Container style={[styles.controlBar]}>
         <View style={[styles.recordStatusControl]}>
           <Lupine.RecordButton
             active={locationEnabled ?? false}
             onPress={() => setLocationEnabled(!locationEnabled)}
           />
           <View>
-            <Text>Tracking</Text>
-            <Text>{locationEnabled ? "ON" : "OFF"}</Text>
+            <Lupine.Text>Tracking</Lupine.Text>
+            <Lupine.Text
+              variant="bold"
+              style={[styles.recordStatusControlIndicator]}
+            >
+              {locationEnabled ? "ON" : "OFF"}
+            </Lupine.Text>
           </View>
         </View>
 
         <View>
-          <Text>Last record: just now</Text>
-          <Text>Last sync: just now</Text>
+          <Lupine.Text>Last record: just now</Lupine.Text>
+          <Lupine.Text>Last sync: just now</Lupine.Text>
         </View>
-      </View>
+      </Lupine.Container>
     </View>
   );
 }
@@ -123,6 +128,7 @@ const styles = StyleSheet.create({
   controlBar: {
     height: 80,
     backgroundColor: theme.colors.white,
+    flex: 0,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -131,5 +137,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: theme.spacing[3],
+  },
+  recordStatusControlIndicator: {
+    fontSize: 24,
   },
 });

@@ -1,8 +1,8 @@
 import React from "react";
 import {
+  StyleSheet,
   TouchableOpacity as RNTouchableOpacity,
   TouchableOpacityProps,
-  StyleSheet,
   View,
 } from "react-native";
 import { theme } from "../../theme";
@@ -28,10 +28,10 @@ export const RecordButton: React.FC<RecordButtonProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    height: 50,
-    width: 50,
-    paddingLeft: 4,
-    paddingTop: 4,
+    height: 48,
+    width: 48,
+    paddingLeft: 3,
+    paddingTop: 3,
   },
 
   default: {

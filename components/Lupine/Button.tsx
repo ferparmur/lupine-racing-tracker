@@ -3,9 +3,9 @@ import {
   TouchableOpacity as RNTouchableOpacity,
   TouchableOpacityProps,
   StyleSheet,
-  Text,
 } from "react-native";
 import { theme } from "../../theme";
+import Lupine from "./index";
 
 interface ButtonProps extends TouchableOpacityProps {
   variant?: "primary" | "secondary" | "outline" | "danger";
@@ -25,9 +25,11 @@ export const Button: React.FC<ButtonProps> = ({
       {...props}
     >
       {text ? (
-        <Text style={[buttonTextStyles.default, buttonTextStyles[variant]]}>
+        <Lupine.Text
+          style={[buttonTextStyles.default, buttonTextStyles[variant]]}
+        >
           {text}
-        </Text>
+        </Lupine.Text>
       ) : null}
     </RNTouchableOpacity>
   );
