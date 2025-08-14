@@ -15,22 +15,22 @@ export default function Layout() {
         }}
       />
       <Tabs.Screen
-        name="countries"
+        name="checkpoints"
         options={{
-          title: "Countries",
-          headerTitle: "Country Count Reporting",
+          title: "Checkpoints",
+          headerTitle: "Checkpoint Check-in",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome6 name="earth-europe" size={size} color={color} />
+            <FontAwesome6 name="square-check" size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="checkpoint"
+        name="countries"
         options={{
-          title: "Checkpoint",
-          headerTitle: "Checkpoint Check-in",
+          title: "Countries",
+          headerTitle: "Country Check-in",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome6 name="square-check" size={size} color={color} />
+            <FontAwesome6 name="earth-europe" size={size} color={color} />
           ),
         }}
       />
