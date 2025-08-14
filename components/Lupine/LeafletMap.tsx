@@ -1,13 +1,14 @@
 import { StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { RaceConfig } from "../../types/raceConfig";
-import { useAssets } from "expo-asset";
+import { Location } from "react-native-background-geolocation";
 
 interface LeafletMapProps {
   raceConfig?: RaceConfig;
+  locations?: Location[];
 }
 
-export const LeafletMap = ({ raceConfig }: LeafletMapProps) => {
+export const LeafletMap = ({ raceConfig, locations }: LeafletMapProps) => {
   const leafletHTML = `
     <!DOCTYPE html>
     <html>
@@ -33,8 +34,10 @@ export const LeafletMap = ({ raceConfig }: LeafletMapProps) => {
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
           const raceConfig = ${JSON.stringify(raceConfig)};
+          const locations = ${JSON.stringify(locations)};
           const map = L.map('map', {
-            zoomControl: false
+            zoomControl: false,
+            maxZoom: 16,
           }).setView([51.505, -0.09], 13);
 
           L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
@@ -79,6 +82,39 @@ export const LeafletMap = ({ raceConfig }: LeafletMapProps) => {
             bounds.push([raceConfig.start_geofence.latitude, raceConfig.start_geofence.longitude]);
             bounds.push([raceConfig.end_geofence.latitude, raceConfig.end_geofence.longitude]);
             map.fitBounds(bounds);
+          }
+          
+          if(Array.isArray(locations) && locations.length > 0) {
+            //Draw Accuracy Circles
+            locations.forEach((location) => {
+              L.circle([location.coords.latitude, location.coords.longitude], {
+                radius: location.coords.accuracy,
+                color: '#36b5e3',
+                fillColor: '#36b5e3',
+                fillOpacity: 0.15,
+                weight: .5,
+              }).addTo(map);
+            });
+            
+            //Draw Polyline
+            const latlngs = locations.map((location) => [location.coords.latitude, location.coords.longitude]);
+            L.polyline(latlngs, {
+                color: '#333',
+                weight: 5
+            }).addTo(map);
+            
+            //Draw location markers
+            locations.forEach(location => {
+              L.circleMarker([location.coords.latitude, location.coords.longitude], {
+                  radius: 1.5,
+                  color: '#666',
+                  fillColor: '#666',
+                  fillOpacity: 1,
+                  weight: 1,
+              })
+                .addTo(map)
+                .bindPopup(\`Time: \${location.timestamp}<br>Accuracy: \${location.coords.accuracy} m\`);
+            })
           }
         </script>
       </body>

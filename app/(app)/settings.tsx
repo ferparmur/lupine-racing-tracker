@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Switch, Text, View } from "react-native";
 import Lupine from "../../components/Lupine";
 import { useMMKVObject, useMMKVString } from "react-native-mmkv";
 import { RaceConfig } from "../../types/raceConfig";
@@ -10,6 +10,20 @@ export default function Settings() {
 
   return (
     <View style={styles.container}>
+      <Lupine.FieldSet label="Tracking Mode">
+        <Lupine.FormField label="Battery Saving">
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 3,
+            }}
+          >
+            <Switch value={true} />
+            <Text>Reduce tracking detail to extend battery life</Text>
+          </View>
+        </Lupine.FormField>
+      </Lupine.FieldSet>
+
       <Lupine.FieldSet label="Global Configuration">
         <Lupine.FormField label="Race">
           {raceConfig ? (
@@ -29,7 +43,7 @@ export default function Settings() {
               storage.clearAll();
             }}
             variant="danger"
-            text="Delete Configuration"
+            text="Reset Configuration"
           />
         </Lupine.FormField>
       </Lupine.FieldSet>
